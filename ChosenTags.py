@@ -59,8 +59,8 @@ def getTagCategory(tag):
 
 # getAllTags()
 # buildDict()
-# getTagCategory('happy')
-
+#print getTagCategory('happy')
+#print getTagCategory('dreamy')
 
 # In[ ]:
 

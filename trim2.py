@@ -32,29 +32,26 @@ def getTagValue(track_id, tag, connection):
         return val[0]
 
 
-def main():
+def makeGenomes():
     allSongs = {}
     
     dbfile = "lastfm_tags.db"
     conn = sqlite3.connect(dbfile)
 
+    catNumbers = collections.defaultdict(int)
     for tag in CT.getAllTags():
         for song in getSongsWithTag(tag, conn):
             val = getTagValue(song, tag, conn)
-            category = CT.getTagCategory(tag)            
+            category = CT.getTagCategory(tag)
+            catNumbers[category] += 1
             if song in allSongs:
                 allSongs[song][category] += val
             else:
                 allSongs[song] = collections.defaultdict(float)
                 allSongs[song][category] = val
-    count = 0
-    for k,v in allSongs.iteritems():
-        count += 1
-        print k, ": ", v
-        if count > 135:
-            break
-        
+
     conn.close()
-
-
-main()
+    print catNumbers
+    return allSongs
+        
+makeGenomes()
