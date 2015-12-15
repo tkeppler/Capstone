@@ -4,6 +4,8 @@ This project contains files for a Emotional Music Recommender. This was built fo
 
 The critique recommendation file can be found in critiqueRec.py. Currently the critiqueTagMore and critiqueTagLess functions take inputs of a tag:val dictionary and the tag to be critiqued and return the top 5 similar songs in the respective directions.
 
+Will need both the lastfm_tags database and the track_metadata SQLite databases from the million songs dataset to run this code.
+
 Database source:
 
 Thierry Bertin-Mahieux, Daniel P.W. Ellis, Brian Whitman, and Paul Lamere. 
