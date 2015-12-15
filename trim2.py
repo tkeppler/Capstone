@@ -1,3 +1,11 @@
+# file to retrieve desired songs from the sqlite database
+# using chosen tags file
+
+# after trim is run there are 104,049 unique songs in our data set
+
+
+# author: Taylor Keppler, except as noted
+
 import os
 import sys
 import sqlite3
@@ -16,6 +24,7 @@ def sanitize(tag):
     return tag
 
 def getSongsWithTag(tag, connection):
+    # sql request to get all tracks with a given tag
     sql = "SELECT tids.tid FROM tags, tid_tag, tids WHERE tags.ROWID = tid_tag.tag AND tids.ROWID = tid_tag.tid and tags.tag = '%s'" % sanitize(tag)
     res = connection.execute(sql)
     tracks = res.fetchall()
@@ -23,6 +32,7 @@ def getSongsWithTag(tag, connection):
         yield track[0]
 
 def getTagValue(track_id, tag, connection):
+    # for a given track and tag, returns the value of the tag for that track
     sql = "SELECT tid_tag.val FROM tid_tag, tids, tags WHERE tags.ROWID = tid_tag.tag AND tid_tag.tid = tids.ROWID AND tids.tid = '%(tid)s' AND tags.tag = '%(tag)s'" % {"tid": track_id, "tag": sanitize(tag)} 
     res = connection.execute(sql)
     val = res.fetchone()
@@ -33,17 +43,15 @@ def getTagValue(track_id, tag, connection):
 
 
 def makeGenomes():
+    # returns a dictionary of songs: {tags: values} aka dictionary of all tag genomes
     allSongs = {}
     
     dbfile = "lastfm_tags.db"
     conn = sqlite3.connect(dbfile)
-
-    catNumbers = collections.defaultdict(int)
     for tag in CT.getAllTags():
         for song in getSongsWithTag(tag, conn):
             val = getTagValue(song, tag, conn)
             category = CT.getTagCategory(tag)
-            catNumbers[category] += 1
             if song in allSongs:
                 allSongs[song][category] += val
             else:
@@ -51,7 +59,4 @@ def makeGenomes():
                 allSongs[song][category] = val
 
     conn.close()
-    print catNumbers
     return allSongs
-        
-makeGenomes()

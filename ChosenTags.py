@@ -1,7 +1,5 @@
-
-# coding: utf-8
-
-# In[1]:
+# chosen tags for emotional music recommender
+# authors: Taylor Keppler and Blais Yokoyama
 
 LOVE = ['Love', 'romantic', 'love songs', 'love song', 'lovesongs', 'romance', 'lovesong', 'amor']
 
@@ -31,6 +29,7 @@ allCategories = [(LOVE, 'LOVE'), (PRETTY, 'PRETTY'), (RELAXING, 'RELAXING'),
                  (BREAKUP, 'BREAKUP')]
 
 def getAllTags():
+    # returns list of all tags we're using for the recommender
     allTags = []
     for catTuple in allCategories:
         for tag in catTuple[0]:
@@ -38,9 +37,9 @@ def getAllTags():
     return allTags
 
 def getDictAllTags():
+    # returns dictionary of all tag categories: list of tags
     allTags = {}
     for catTuple in allCategories:
-        #print catTuple
         catLabel = catTuple[1]
         allTags[catLabel] = []
         for tag in catTuple[0]:
@@ -49,20 +48,7 @@ def getDictAllTags():
                 
 
 def getTagCategory(tag):
-    # want just category name as string
-    # there is probs a more efficient way f doing this?
+    # returns tag category for an inputed tag
     for catTuple in allCategories:
         if tag in catTuple[0]:
             return catTuple[1]
-        
-########## tests ########
-
-# getAllTags()
-# buildDict()
-#print getTagCategory('happy')
-#print getTagCategory('dreamy')
-
-# In[ ]:
-
-
-
